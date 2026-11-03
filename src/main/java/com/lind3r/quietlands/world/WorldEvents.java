@@ -1,5 +1,6 @@
 package com.lind3r.quietlands.world;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +28,16 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class WorldEvents {
+
+    private static final Set<OreGenEvent.GenerateMinable.EventType> VANILLA_ORES = new HashSet<>(
+        Arrays.asList(
+            OreGenEvent.GenerateMinable.EventType.COAL,
+            OreGenEvent.GenerateMinable.EventType.IRON,
+            OreGenEvent.GenerateMinable.EventType.GOLD,
+            OreGenEvent.GenerateMinable.EventType.REDSTONE,
+            OreGenEvent.GenerateMinable.EventType.DIAMOND,
+            OreGenEvent.GenerateMinable.EventType.LAPIS,
+            OreGenEvent.GenerateMinable.EventType.QUARTZ));
 
     private final Set<Class<?>> loggedMobs = new HashSet<>();
 
@@ -61,18 +72,16 @@ public class WorldEvents {
     @SubscribeEvent
     public void onPopulate(PopulateChunkEvent.Populate event) {
         if (!QuietLands.isQuietLands(event.world)) return;
-        switch (event.type) {
-            case ANIMALS:
-                event.setResult(Event.Result.DENY);
-                break;
-            case DUNGEON:
-            case LAKE:
-            case LAVA:
-                if (Config.noStructures) event.setResult(Event.Result.DENY);
-                break;
-            default:
-                break;
-        }
+        // No switch on Forge's event-type enums: mods add constants at runtime (Forestry: hives), which breaks the
+        // compile-time switch table with an ArrayIndexOutOfBoundsException.
+        PopulateChunkEvent.Populate.EventType t = event.type;
+        if (t == PopulateChunkEvent.Populate.EventType.ANIMALS) {
+            event.setResult(Event.Result.DENY);
+        } else if (Config.noStructures
+            && (t == PopulateChunkEvent.Populate.EventType.DUNGEON || t == PopulateChunkEvent.Populate.EventType.LAKE
+                || t == PopulateChunkEvent.Populate.EventType.LAVA)) {
+                    event.setResult(Event.Result.DENY);
+                }
     }
 
     @SubscribeEvent
@@ -87,41 +96,18 @@ public class WorldEvents {
     @SubscribeEvent
     public void onOre(OreGenEvent.GenerateMinable event) {
         if (!Config.noVanillaOres || !QuietLands.isQuietLands(event.world)) return;
-        switch (event.type) {
-            case COAL:
-            case IRON:
-            case GOLD:
-            case REDSTONE:
-            case DIAMOND:
-            case LAPIS:
-            case QUARTZ:
-                event.setResult(Event.Result.DENY);
-                break;
-            default:
-                break;
-        }
+        if (VANILLA_ORES.contains(event.type)) event.setResult(Event.Result.DENY);
     }
 
     /** Fires while RWG2 builds its generator; only replace the generators of our own dimension. */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onInitMapGen(InitMapGenEvent event) {
         if (!Config.noStructures || !Rwg2Bridge.BUILDING.get()) return;
-        switch (event.type) {
-            case CAVE:
-                event.newGen = new NoCaves();
-                break;
-            case MINESHAFT:
-                event.newGen = new NoMineshaft();
-                break;
-            case VILLAGE:
-                event.newGen = new NoVillage();
-                break;
-            case STRONGHOLD:
-                event.newGen = new NoStronghold();
-                break;
-            default:
-                break;
-        }
+        InitMapGenEvent.EventType t = event.type;
+        if (t == InitMapGenEvent.EventType.CAVE) event.newGen = new NoCaves();
+        else if (t == InitMapGenEvent.EventType.MINESHAFT) event.newGen = new NoMineshaft();
+        else if (t == InitMapGenEvent.EventType.VILLAGE) event.newGen = new NoVillage();
+        else if (t == InitMapGenEvent.EventType.STRONGHOLD) event.newGen = new NoStronghold();
     }
 
     private static final class NoCaves extends MapGenBase {

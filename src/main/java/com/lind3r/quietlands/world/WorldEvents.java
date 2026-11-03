@@ -95,7 +95,6 @@ public class WorldEvents {
             case DIAMOND:
             case LAPIS:
             case QUARTZ:
-            case EMERALD:
                 event.setResult(Event.Result.DENY);
                 break;
             default:

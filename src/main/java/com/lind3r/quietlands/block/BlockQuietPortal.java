@@ -24,8 +24,8 @@ public class BlockQuietPortal extends Block {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hx,
-        float hy, float hz) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hx, float hy,
+        float hz) {
         if (player.isSneaking()) return false;
         if (!world.isRemote && player instanceof EntityPlayerMP) {
             Travel.use((EntityPlayerMP) player);

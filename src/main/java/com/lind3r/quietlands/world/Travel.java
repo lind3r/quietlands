@@ -103,8 +103,7 @@ public final class Travel {
         // 1.7.10 forgets to resend these after a dimension change
         player.addExperienceLevel(0);
         for (Object o : player.getActivePotionEffects()) {
-            player.playerNetServerHandler
-                .sendPacket(new S1DPacketEntityEffect(player.getEntityId(), (PotionEffect) o));
+            player.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(player.getEntityId(), (PotionEffect) o));
         }
     }
 

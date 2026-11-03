@@ -15,14 +15,14 @@ public final class Recipes {
      * HV tier, needs Titanium (the Personal Dimension quest is gated the same way):
      *
      * <pre>
-     * P C P     P = Titanium Plate        C = HV circuit (circuitAdvanced)
-     * C F C     F = Titanium Frame Box
+     * P E P     P = Titanium Plate
+     * E F E     F = Titanium Frame Box
      * P E P     E = Eye of Ender
      * </pre>
      */
     public static void register() {
         if (!Config.enableRecipe) return;
-        for (String ore : new String[] { "plateTitanium", "circuitAdvanced", "frameGtTitanium" }) {
+        for (String ore : new String[] { "plateTitanium", "frameGtTitanium" }) {
             if (OreDictionary.getOres(ore)
                 .isEmpty()) {
                 QuietLands.LOG.warn("Ore dictionary has no '{}'; the portal recipe can't be crafted.", ore);
@@ -31,13 +31,11 @@ public final class Recipes {
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
                 new ItemStack(QuietLands.portal),
-                "PCP",
-                "CFC",
+                "PEP",
+                "EFE",
                 "PEP",
                 'P',
                 "plateTitanium",
-                'C',
-                "circuitAdvanced",
                 'F',
                 "frameGtTitanium",
                 'E',

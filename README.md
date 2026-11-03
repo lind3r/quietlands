@@ -36,8 +36,8 @@ new world. Needs no changes to GTNH or any of its mods.
 - **Recipe** (HV, needs Titanium):
 
   ```
-  P C P    P = Titanium Plate, C = HV circuit (circuitAdvanced)
-  C F C    F = Titanium Frame Box
+  P E P    P = Titanium Plate
+  E F E    F = Titanium Frame Box
   P E P    E = Eye of Ender
   ```
 

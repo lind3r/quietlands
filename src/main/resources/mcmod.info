@@ -1,0 +1,21 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "A shared, mob-free dimension generated with RWG2 terrain, reached through a placeable portal.",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "https://github.com/lind3r/quietlands",
+		"updateUrl": "",
+		"authorList": ["lind3r"],
+		"credits": "Terrain by RWG2 (Realistic World Gen). Mod written with Claude.",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": ["rwg2"],
+		"dependencies": ["rwg2"],
+		"dependants": [],
+		"useDependencyInformation": true
+	}]
+}

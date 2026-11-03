@@ -1,5 +1,12 @@
 // Add any additional repositories for your dependencies here.
 
 repositories {
-
+    // EndlessIDs (+ FalsePatternLib, ChunkAPI), needed by RWG2 in the dev / CI runtime
+    maven {
+        name = "FalsePattern"
+        url = "https://mvn.falsepattern.com/releases/"
+        content {
+            includeGroup("com.falsepattern")
+        }
+    }
 }

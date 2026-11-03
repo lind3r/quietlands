@@ -58,10 +58,18 @@ public final class Travel {
                 player.addChatMessage(new ChatComponentText("Quiet Lands is not available (see the server log)."));
                 return;
             }
+            // always make sure the hub (and its return portal) exists, e.g. after the dimension was reset
+            ChunkCoordinates hub = ensureHub(quiet);
             if (data.hasKey("last")) {
-                NBTTagCompound last = data.getCompoundTag("last");
-                if (!canStand(quiet, last.getDouble("x"), last.getDouble("y"), last.getDouble("z"))) {
-                    int y = groundY(quiet, floor(last.getDouble("x")), floor(last.getDouble("z")), false);
+                // snap to the block centre: the player is 0.6 wide, an off-centre spot can overlap a higher
+                // neighbouring column on a slope even when the checked column is free
+                NBTTagCompound last = (NBTTagCompound) data.getCompoundTag("last")
+                    .copy();
+                int lx = floor(last.getDouble("x")), lz = floor(last.getDouble("z"));
+                last.setDouble("x", lx + 0.5);
+                last.setDouble("z", lz + 0.5);
+                if (!canStand(quiet, lx + 0.5, last.getDouble("y"), lz + 0.5)) {
+                    int y = groundY(quiet, lx, lz, false);
                     if (y > 0) last.setDouble("y", y + 1);
                     else last = null;
                 }
@@ -70,7 +78,6 @@ public final class Travel {
                     return;
                 }
             }
-            ChunkCoordinates hub = ensureHub(quiet);
             teleport(player, point(Config.dimensionId, hub.posX + 0.5, hub.posY, hub.posZ + 0.5, -90f));
         }
     }

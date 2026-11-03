@@ -1,11 +1,20 @@
 package com.lind3r.quietlands.world;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenLiquids;
@@ -67,7 +76,77 @@ public final class Rwg2Bridge {
 
     public static WorldChunkManager createChunkManager(World world) {
         prepareSavedData(world);
-        return worldType().getChunkManager(world);
+        WorldChunkManager cm = worldType().getChunkManager(world);
+        if (Config.excludedBiomes.length > 0) excludeBiomes(cm);
+        return cm;
+    }
+
+    /**
+     * RWG2 picks biomes from list fields of its chunk manager. In the constructor those fields are filled with
+     * references to RWG2's shared global lists, so here this one instance gets filtered copies instead: the global
+     * lists (and every other dimension) stay untouched. A list that would end up empty is left as it is. The
+     * {@code <name>Length} int fields that cache a list's size are updated to match.
+     */
+    @SuppressWarnings("unchecked")
+    private static void excludeBiomes(WorldChunkManager cm) {
+        Set<String> excluded = new HashSet<>();
+        for (String s : Config.excludedBiomes) excluded.add(
+            s.trim()
+                .toLowerCase(Locale.ROOT));
+        Set<String> removed = new TreeSet<>();
+        try {
+            Field baseBiome = Class.forName("rwg2.biomes.realistic.RealisticBiomeBase")
+                .getField("baseBiome");
+            Map<String, Field> lists = new HashMap<>();
+            for (Field f : cm.getClass()
+                .getDeclaredFields()) {
+                if (Modifier.isStatic(f.getModifiers())) continue;
+                if (f.getType() == ArrayList.class) {
+                    f.setAccessible(true);
+                    ArrayList<Object> list = (ArrayList<Object>) f.get(cm);
+                    ArrayList<Object> filtered = filter(list, baseBiome, excluded, removed);
+                    if (filtered != list) f.set(cm, filtered);
+                    lists.put(f.getName(), f);
+                } else if (f.getType() == ArrayList[].class) {
+                    f.setAccessible(true);
+                    ArrayList<Object>[] arr = (ArrayList<Object>[]) f.get(cm);
+                    if (arr == null) continue;
+                    ArrayList<Object>[] copy = arr.clone();
+                    for (int i = 0; i < copy.length; i++) copy[i] = filter(copy[i], baseBiome, excluded, removed);
+                    f.set(cm, copy);
+                }
+            }
+            for (Field f : cm.getClass()
+                .getDeclaredFields()) {
+                String n = f.getName();
+                if (f.getType() != int.class || !n.endsWith("Length") || Modifier.isStatic(f.getModifiers())) continue;
+                Field list = lists.get(n.substring(0, n.length() - "Length".length()));
+                if (list == null) continue;
+                f.setAccessible(true);
+                Object l = list.get(cm);
+                if (l != null) f.setInt(cm, ((ArrayList<?>) l).size());
+            }
+        } catch (ReflectiveOperationException | RuntimeException e) {
+            QuietLands.LOG.warn("Could not exclude biomes from Quiet Lands; they will generate normally", e);
+            return;
+        }
+        if (!removed.isEmpty()) QuietLands.LOG.info("Biomes excluded from Quiet Lands: {}", removed);
+    }
+
+    private static ArrayList<Object> filter(ArrayList<Object> list, Field baseBiome, Set<String> excluded,
+        Set<String> removed) throws IllegalAccessException {
+        if (list == null) return null;
+        ArrayList<Object> out = new ArrayList<>(list.size());
+        for (Object b : list) {
+            BiomeGenBase base = b == null ? null : (BiomeGenBase) baseBiome.get(b);
+            if (base != null && base.biomeName != null && excluded.contains(base.biomeName.toLowerCase(Locale.ROOT))) {
+                removed.add(base.biomeName);
+            } else {
+                out.add(b);
+            }
+        }
+        if (out.size() == list.size() || out.isEmpty()) return list;
+        return out;
     }
 
     public static IChunkProvider createGenerator(World world) {

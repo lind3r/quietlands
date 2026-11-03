@@ -6,6 +6,17 @@ generated with **RWG2** terrain (the new world generator in GTNH 2.9), reached t
 Made for players whose Overworld still uses the old RWG and who want the new terrain to build in, without starting a
 new world. Needs no changes to GTNH or any of its mods.
 
+> [!CAUTION]
+> **Back up your world before installing or testing this mod.**
+>
+> Quiet Lands is a small hobby project, tested by one person in one GTNH 2.9.0 world. It adds a dimension, changes
+> world generation and teleports players between dimensions. A bug or an incompatibility can corrupt a save, kill your
+> character or lose items. **You use it at your own risk; no one takes responsibility for lost worlds or items.**
+>
+> - Close the game and copy your whole save folder (or use your launcher's instance backup) before the first start.
+> - Best: try it first in a **copy** of your instance and world, not in your main playthrough.
+> - Keep backups while you play with it.
+
 ## What it does
 
 - **Dimension** (default ID `1337`): RWG2 "continents" terrain with its own seed (world seed XOR `seedSalt`).
@@ -16,6 +27,8 @@ new world. Needs no changes to GTNH or any of its mods.
 - **Less to generate and tick** (each can be turned off in `config/quietlands.cfg`): no caves, mineshafts, villages,
   strongholds, dungeons, underground water/lava lakes, springs, vanilla ores, or weather (rain, snow, ice forming,
   lightning). GT ore veins don't generate either, since GT only generates in dimensions it knows.
+- **Excluded biomes** (`excludedBiomes`, default `Tainted Land`): RWG2 places Thaumcraft's Tainted Land, whose taint
+  spreads and whose Flux Goo spawns Thaumic Slimes. Listed biomes are left out of Quiet Lands only.
 - **Portal block** "Quiet Lands Portal": right-click to enter. The first visit creates a small stone-brick platform with
   a return portal near 0,0 (the shared hub). Later visits put you back where you last left Quiet Lands. Right-clicking
   a portal inside Quiet Lands takes you back to where you entered from. Place more portals anywhere: they all lead to
@@ -48,4 +61,4 @@ world's `betterquesting/QuestDatabase.json` (world closed, backup first).
 
 ## License
 
-MIT
+MIT, provided "as is", without warranty of any kind (see [LICENSE](LICENSE)).

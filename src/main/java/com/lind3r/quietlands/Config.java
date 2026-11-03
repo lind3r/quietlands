@@ -15,6 +15,7 @@ public class Config {
     public static boolean noSprings = true;
     public static boolean logMobs = true;
     public static boolean enableRecipe = true;
+    public static String[] excludedBiomes = { "Tainted Land" };
 
     public static void load(File file) {
         Configuration c = new Configuration(file);
@@ -59,6 +60,13 @@ public class Config {
             "Log the first appearance of each mob type in Quiet Lands (spawners and spawn eggs are allowed; "
                 + "this shows if some other mod spawns things).");
         enableRecipe = c.getBoolean("enableRecipe", g, enableRecipe, "Add a crafting recipe for the portal.");
+        excludedBiomes = c.getStringList(
+            "excludedBiomes",
+            g,
+            excludedBiomes,
+            "Biomes RWG2 must not place in Quiet Lands (biome names as shown in F3, case-insensitive). Default: "
+                + "Thaumcraft's Tainted Land, whose taint spreads and whose Flux Goo spawns Thaumic Slimes. "
+                + "Changing it after chunks were generated can cause seams at the border to new chunks.");
 
         if (c.hasChanged()) c.save();
     }

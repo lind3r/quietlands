@@ -17,6 +17,22 @@ new world. Needs no changes to GTNH or any of its mods.
 > - Best: try it first in a **copy** of your instance and world, not in your main playthrough.
 > - Keep backups while you play with it.
 
+## How to use
+
+1. **Back up first.** Close the game and copy your save folder (`saves/<world>`), or back up the whole instance in your
+   launcher. Better still, try it in a copy of your instance first (see the warning above).
+2. **Download** `quietlands-<version>.jar` from the [Releases](https://github.com/lind3r/quietlands/releases) page.
+3. **Install:** put the jar into your instance's `mods` folder. Made for GTNH 2.9.0, which already includes RWG2. In
+   multiplayer the server and every player need the same jar (and the same `dimensionId`).
+4. **Start the game.** `config/quietlands.cfg` is created with the defaults; nothing needs changing.
+5. **Get a portal:** craft it (recipe below), add it as a quest reward (see below), or in creative/cheats:
+   `/give @p quietlands:portal`.
+6. **Place it and right-click it.** Your first visit builds a small stone-brick platform with a return portal near 0,0
+   in Quiet Lands. Sneak-right-click does nothing, so you can still place blocks against it.
+7. **Going back:** right-click any portal inside Quiet Lands to return to where you entered from. Next time you enter,
+   you arrive where you last left Quiet Lands. You can place as many portals as you like, in any dimension; they all lead
+   to the same Quiet Lands.
+
 ## What it does
 
 - **Dimension** (default ID `1337`): RWG2 "continents" terrain with its own seed (world seed XOR `seedSalt`).
@@ -54,6 +70,9 @@ new world. Needs no changes to GTNH or any of its mods.
 The GTNH "Personal Dimension" quest (HV tab, quest ID 217) can get the portal as a second reward: in BetterQuesting edit
 mode, add an *Item* reward with `quietlands:portal`, or add a second `bq_standard:item` entry to the quest in your
 world's `betterquesting/QuestDatabase.json` (world closed, backup first).
+
+To complete that quest by command (e.g. for testing): `/bq_admin complete AAAAAAAAAAAAAAAAAAAA2Q==`. Quest IDs in
+this BetterQuesting version are encoded; a plain `217` fails with "An unknown error occurred".
 
 ## Building
 

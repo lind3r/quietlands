@@ -4,7 +4,7 @@ A Minecraft 1.7.10 / [GT New Horizons](https://www.gtnewhorizons.com/) add-on: o
 generated with **RWG2** terrain (the new world generator in GTNH 2.9), reached through a placeable portal block.
 
 Made for players whose Overworld still uses the old RWG and who want the new terrain to build in, without starting a
-new world. Needs no changes to GTNH or any of its mods.
+new world, or simply wants a better looking lategame dimension mobs and stuff removed to increase performance. Needs no changes to GTNH or any of its mods.
 
 > [!CAUTION]
 > **Back up your world before installing or testing this mod.**

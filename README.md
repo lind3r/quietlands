@@ -1,10 +1,12 @@
 # Quiet Lands
 
+## TLDR: Overworld generation as a personal dimension, but with no mobs, structures or bad weather.
+
 A Minecraft 1.7.10 / [GT New Horizons](https://www.gtnewhorizons.com/) add-on: one shared, **mob-free** dimension
 generated with **RWG2** terrain (the new world generator in GTNH 2.9), reached through a placeable portal block.
 
 Made for players whose Overworld still uses the old RWG and who want the new terrain to build in, without starting a
-new world, or simply wants a better looking lategame dimension mobs and stuff removed to increase performance. Needs no changes to GTNH or any of its mods.
+new world, or simply wants a better looking lategame dimension with mobs and stuff removed to increase performance. Needs no changes to GTNH or any of its mods.
 
 > [!CAUTION]
 > **Back up your world before installing or testing this mod.**

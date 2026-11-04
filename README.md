@@ -27,16 +27,13 @@ new world. Needs no changes to GTNH or any of its mods.
 
    Better still, try it in a copy of your instance first (see the warning above).
 2. **Download** `quietlands-<version>.jar` from the [Releases](https://github.com/lind3r/quietlands/releases) page.
-3. **Install:** put the jar into your instance's `mods` folder. Made for GTNH 2.9.0, which already includes RWG2. In
-   multiplayer the server and every player need the same jar (and the same `dimensionId`).
-4. **Start the game.** `config/quietlands.cfg` is created with the defaults; nothing needs changing.
+3. **Install:** put the jar into your instance's `mods` folder.
+4. **Start the game.**
 5. **Get a portal:** craft it (recipe below), add it as a quest reward (see below), or in creative/cheats:
    `/give @p quietlands:portal`.
 6. **Place it and right-click it.** Your first visit builds a small stone-brick platform with a return portal near 0,0
-   in Quiet Lands. Sneak-right-click does nothing, so you can still place blocks against it.
-7. **Going back:** right-click any portal inside Quiet Lands to return to where you entered from. Next time you enter,
-   you arrive where you last left Quiet Lands. You can place as many portals as you like, in any dimension; they all lead
-   to the same Quiet Lands.
+   in Quiet Lands.
+7. **Going back:** right-click any portal inside Quiet Lands to return to where you entered from.
 
 ## What it does
 

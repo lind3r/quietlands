@@ -19,8 +19,13 @@ new world. Needs no changes to GTNH or any of its mods.
 
 ## How to use
 
-1. **Back up first.** Close the game and copy your save folder (`saves/<world>`), or back up the whole instance in your
-   launcher. Better still, try it in a copy of your instance first (see the warning above).
+1. **Back up first.** Either way works:
+   - In game (GTNH has ServerUtilities): `/backup start before-quietlands` creates a zip in `.minecraft/backups/`.
+     **Copy that zip somewhere else**: with GTNH's default config, named backups are rotated away like the automatic
+     ones (`delete_custom_name_backups=true`, 12 kept).
+   - Or close the game and copy your save folder (`saves/<world>`), or back up the whole instance in your launcher.
+
+   Better still, try it in a copy of your instance first (see the warning above).
 2. **Download** `quietlands-<version>.jar` from the [Releases](https://github.com/lind3r/quietlands/releases) page.
 3. **Install:** put the jar into your instance's `mods` folder. Made for GTNH 2.9.0, which already includes RWG2. In
    multiplayer the server and every player need the same jar (and the same `dimensionId`).
